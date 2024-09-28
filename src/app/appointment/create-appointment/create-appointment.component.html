@@ -5,15 +5,15 @@
       <div class="formfield">
         <mat-form-field appearance="outline" class="mt-5">
           <mat-label>Name</mat-label>
-          <input type="text" matInput placeholder="john doe" formControlName="name">
+          <input type="text" matInput placeholder="john doe" formControlName="patientName">
           <mat-error *ngIf="isSubmitBtnClicked" class="error">
-            <ng-container *ngIf="isRequiredError('name')">
+            <ng-container *ngIf="isRequiredError('patientName')">
               Name is required.
             </ng-container>
-            <ng-container *ngIf="isMaxLengthError('name')">
+            <ng-container *ngIf="isMaxLengthError('patientName')">
               Name should not be greater than 60 characters.
             </ng-container>
-            <ng-container *ngIf="isMinLengthError('name')">
+            <ng-container *ngIf="isMinLengthError('patientName')">
               Name should not be empty.
             </ng-container>
           </mat-error>
@@ -33,9 +33,9 @@
       <div class="formfield">
         <mat-form-field class="mt-5">
           <mat-label>Appointment Time</mat-label>
-          <input type="text" matInput placeholder="HH:mm" formControlName="appointmentTime" readonly>
+          <input type="text" matInput placeholder="HH:mm" formControlName="appointmentStartTime" readonly>
           <mat-error *ngIf="isSubmitBtnClicked" class="error">
-            <ng-container *ngIf="isRequiredError('appointmentTime')">
+            <ng-container *ngIf="isRequiredError('appointmentStartTime')">
               Appointment time is required.
             </ng-container>
           </mat-error>
@@ -44,21 +44,10 @@
       <div class="formfield">
         <mat-form-field appearance="outline" class="mt-5">
           <mat-label>Duration</mat-label>
-          <input type="number" matInput formControlName="duration">
+          <input type="number" matInput formControlName="appointmentDuration">
           <mat-error *ngIf="isSubmitBtnClicked" class="error">
-            <ng-container *ngIf="isRequiredError('duration')">
+            <ng-container *ngIf="isRequiredError('appointmentDuration')">
               Appointment duration is required.
-            </ng-container>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="formfield">
-        <mat-form-field appearance="outline" class="mt-5">
-          <mat-label>Notes</mat-label>
-          <textarea matInput placeholder="Any notes ...." formControlName="notes"></textarea>
-          <mat-error *ngIf="isSubmitBtnClicked" class="error">
-            <ng-container *ngIf="isRequiredError('notes')">
-              Notes is required.
             </ng-container>
           </mat-error>
         </mat-form-field>

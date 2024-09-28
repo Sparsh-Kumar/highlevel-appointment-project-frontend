@@ -7,7 +7,7 @@
     </div>
     <div class="container">
       <div class="calendar">
-        <mat-calendar (selectedChange)="onDateSelected($event)" [selected]="selectedDate"></mat-calendar>
+        <mat-calendar (selectedChange)="onDateSelected($event)" [selected]="selectedDate" [minDate]="selectedDate"></mat-calendar>
       </div>
       <div class="slots">
         <h2> Available Slots On {{ selectedDate | date:'yyyy/MM/dd' }}</h2>

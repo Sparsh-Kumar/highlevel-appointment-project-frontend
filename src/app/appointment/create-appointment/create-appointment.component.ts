@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LooseObject } from '../types';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+import { AppointmentService } from '../appointment.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-appointment',
@@ -19,6 +22,9 @@ export class CreateAppointmentComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: LooseObject,
+    private readonly _appointmentService: AppointmentService,
+    private readonly _spinner: NgxSpinnerService,
+    private readonly _dialogRef: MatDialogRef<CreateAppointmentComponent>
   ) {
 
     const nameValidations = [
@@ -28,21 +34,37 @@ export class CreateAppointmentComponent {
     ];
 
     this.appointmentInfo = new FormGroup({
-      name: new FormControl('', nameValidations),
-      duration: new FormControl(30, [Validators.required]),
-      notes: new FormControl(''),
+      doctorId: new FormControl(data['doctorId']),
+      patientName: new FormControl('', nameValidations),
+      appointmentDuration: new FormControl(30, [Validators.required]),
       appointmentDate: new FormControl(moment(data['appointmentDate']).format('YYYY-MM-DD'), [Validators.required]),
-      appointmentTime: new FormControl(data['slot'], [Validators.required])
+      appointmentStartTime: new FormControl(data['slot'], [Validators.required])
     });
 
   }
 
-  public ngOnInit() {
-    console.log(this.data);
-  }
-
   public submitAppointmentInfo() {
-    console.log(this.appointmentInfo);
+    if (this.appointmentInfo?.valid) {
+      this._spinner.show();
+      this._appointmentService.createAppointment(this.appointmentInfo.value).subscribe(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Your appointment has been created successfully.",
+          showConfirmButton: true
+        });
+        this._spinner.hide();
+        this._dialogRef.close();
+      }, (error) => {
+        Swal.fire({
+          title: 'Error !',
+          text: 'Facing technical difficulty in creating your appointment.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        this._spinner.hide();
+        this._dialogRef.close();
+      })
+    }
   }
 
   public isRequiredError(fieldName: string): boolean {

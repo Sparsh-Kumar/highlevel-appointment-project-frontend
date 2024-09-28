@@ -18,10 +18,10 @@ export class AppointmentComponent {
   public doctorId: string = environment.DOCTORID;
   public doctorName: string = ''
   public doctorEmail: string = '';
-  public selectedDate: Date = moment().startOf('month').toDate();
+  public selectedDate: Date = moment().toDate();
   public availableSlots: string[] = [];
   public dialogWidth: string = '25%';
-  public dialogHeight: string = '75%';
+  public dialogHeight: string = '65%';
 
   constructor(
     private readonly _dialog: MatDialog,
@@ -88,7 +88,7 @@ export class AppointmentComponent {
     };
     const dialogReference: MatDialogRef<CreateAppointmentComponent, LooseObject> = this._dialog.open(CreateAppointmentComponent, metaData);
     dialogReference.afterClosed().subscribe((response: LooseObject | undefined) => {
-      console.log(response);
+      this.getSlots();
     });
 
   }
