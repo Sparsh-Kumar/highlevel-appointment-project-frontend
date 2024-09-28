@@ -7,7 +7,8 @@
     </div>
     <div class="container">
       <div class="calendar">
-        <mat-calendar (selectedChange)="onDateSelected($event)" [selected]="selectedDate" [minDate]="selectedDate"></mat-calendar>
+        <mat-calendar (selectedChange)="onDateSelected($event)" [selected]="selectedDate"
+          [minDate]="selectedDate"></mat-calendar>
       </div>
       <div class="slots">
         <h2> Available Slots On {{ selectedDate | date:'yyyy/MM/dd' }}</h2>
@@ -20,3 +21,38 @@
     </div>
   </div>
 </div>
+
+<div class="appointment">
+  <div class="card">
+    <div class="doctorinfo">
+      <h2 *ngIf="doctorName && doctorEmail">
+        Appointment Events Of Dr. {{doctorName}} ({{doctorEmail}})
+      </h2>
+    </div>
+    <div class="container">
+      <div class="calendar">
+        <div class="rangepicker">
+          <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" (dateChange)="onStartDateRangeChange($event)">
+              <input matEndDate placeholder="End date" (dateChange)="onEndDateRangeChange($event)">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="availableEvents?.length" class="events">
+        <h2> Events From {{ dateRangeStartDate | date:'yyyy/MM/dd' }} To {{ dateRangeEndDate | date:'yyyy/MM/dd' }}</h2>
+        <div *ngFor="let event of availableEvents" class="btn-div">
+          <button mat-stroked-button class="btn">
+            {{event}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

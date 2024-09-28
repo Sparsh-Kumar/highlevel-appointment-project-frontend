@@ -47,22 +47,24 @@ export class CreateAppointmentComponent {
     if (this.appointmentInfo?.valid) {
       this._spinner.show();
       this._appointmentService.createAppointment(this.appointmentInfo.value).subscribe(() => {
+        this._spinner.hide();
         Swal.fire({
           icon: "success",
           title: "Your appointment has been created successfully.",
           showConfirmButton: true
-        });
-        this._spinner.hide();
-        this._dialogRef.close();
+        }).then(() => {
+          this._dialogRef.close();
+        })
       }, (error) => {
+        this._spinner.hide();
         Swal.fire({
           title: 'Error !',
           text: 'Facing technical difficulty in creating your appointment.',
           icon: 'error',
           confirmButtonText: 'OK'
+        }).then(() => {
+          this._dialogRef.close();
         });
-        this._spinner.hide();
-        this._dialogRef.close();
       })
     }
   }

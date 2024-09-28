@@ -22,6 +22,11 @@ export class AppointmentService {
     return this._httpClient.get(url);
   }
 
+  public getEvents(dateRangeStartDate: string, dateRangeEndDate: string) {
+    const url = `${environment.API_URL}/appointments?startDate=${dateRangeStartDate}&endDate=${dateRangeEndDate}`;
+    return this._httpClient.get(url);
+  }
+
   public createAppointment(appointmentInfo: LooseObject = {}) {
     const url = `${environment.API_URL}/appointments`;
     return this._httpClient.post(url, appointmentInfo);
