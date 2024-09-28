@@ -4,6 +4,14 @@
       <h2 *ngIf="doctorName && doctorEmail">
         Schedule an Appointment with Dr. {{doctorName}} ({{doctorEmail}})
       </h2>
+      <mat-form-field>
+        <mat-label>Select TimeZone</mat-label>
+        <select matNativeControl required (change)="onScheduleTimeZoneChange($event)">
+          <option *ngFor="let timeZone of availableTimeZones" [value]="timeZone">
+            {{timeZone}}
+          </option>
+        </select>
+      </mat-form-field>
     </div>
     <div class="container">
       <div class="calendar">
@@ -28,6 +36,14 @@
       <h2 *ngIf="doctorName && doctorEmail">
         Appointment Events Of Dr. {{doctorName}} ({{doctorEmail}})
       </h2>
+      <mat-form-field>
+        <mat-label>Select TimeZone</mat-label>
+        <select matNativeControl required (change)="onEventTimeZoneChange($event)">
+          <option *ngFor="let timeZone of availableTimeZones" [value]="timeZone">
+            {{timeZone}}
+          </option>
+        </select>
+      </mat-form-field>
     </div>
     <div class="container">
       <div class="calendar">
@@ -55,4 +71,3 @@
     </div>
   </div>
 </div>
-

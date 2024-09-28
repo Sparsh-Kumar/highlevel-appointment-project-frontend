@@ -26,6 +26,12 @@ export class AppointmentComponent {
   public availableEvents: string[] = [];
   public dialogWidth: string = '25%';
   public dialogHeight: string = '65%';
+  public selectedScheduledTimeZone: string = 'Asia/Kolkata';
+  public selectedEventTimeZone: string = 'Asia/Kolkata';
+  public availableTimeZones = [
+    'Asia/Kolkata',
+    'America/Los_Angeles'
+  ];
 
   constructor(
     private readonly _dialog: MatDialog,
@@ -56,7 +62,11 @@ export class AppointmentComponent {
   public getSlots() {
     this._spinner.show();
     const currentDate = moment(this.selectedDate).format('YYYY-MM-DD');
-    this._appointmentService.getSlots(currentDate).subscribe((response: LooseObject) => {
+    this._appointmentService.getSlots({
+      doctorId: this.doctorId,
+      date: currentDate,
+      timeZone: this.selectedScheduledTimeZone
+    }).subscribe((response: LooseObject) => {
       setTimeout(() => {
         const { data } = response;
         this.availableSlots = data.map((slotInfo: SlotInformation) => {
@@ -71,21 +81,24 @@ export class AppointmentComponent {
         text: 'Error getting free slots information.',
         icon: 'error',
         confirmButtonText: 'OK'
-      })
+      });
+      this._spinner.hide();
     });
   }
 
   public getEvents() {
     this._spinner.show();
-    this._appointmentService.getEvents(
-      moment(this.dateRangeStartDate).format('YYYY-MM-DD'),
-      moment(this.dateRangeEndDate).format('YYYY-MM-DD'),
-    ).subscribe((response: LooseObject) => {
+    this._appointmentService.getEvents({
+      startDate: moment(this.dateRangeStartDate).format('YYYY-MM-DD'),
+      endDate: moment(this.dateRangeEndDate).format('YYYY-MM-DD'),
+      doctorId: this.doctorId,
+      timeZone: this.selectedEventTimeZone,
+    }).subscribe((response: LooseObject) => {
       this._spinner.hide();
       const { data } = response;
       this.availableEvents = data.map((e: LooseObject) => {
-        const start = moment(e['appointmentStartTime']).format('HH:mm');
-        const end = moment(e['appointmentEndTime']).format('HH:mm');
+        const start = moment(e['appointmentStartTime']).format('YYYY-MM-DD HH:mm');
+        const end = moment(e['appointmentEndTime']).format('YYYY-MM-DD HH:mm');
         return `${start} - ${end}`;
       });
     }, (error) => {
@@ -127,6 +140,16 @@ export class AppointmentComponent {
 
   public onEndDateRangeChange(e: MatDatepickerInputEvent<any, DateRange<any>>) {
     this.dateRangeEndDate = e.target.value;
+    this.getEvents();
+  }
+
+  public onScheduleTimeZoneChange(e: Event) {
+    this.selectedScheduledTimeZone = (e.target as HTMLSelectElement).value;
+    this.getSlots();
+  }
+
+  public onEventTimeZoneChange(e: Event) {
+    this.selectedEventTimeZone = (e.target as HTMLSelectElement).value;
     this.getEvents();
   }
 }

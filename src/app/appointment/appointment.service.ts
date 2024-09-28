@@ -17,14 +17,14 @@ export class AppointmentService {
     return this._httpClient.get(url);
   }
 
-  public getSlots(date: string) {
-    const url = `${environment.API_URL}/appointments/slots/${date}`;
-    return this._httpClient.get(url);
+  public getSlots(reqBody: LooseObject) {
+    const url = `${environment.API_URL}/appointments/slots`;
+    return this._httpClient.post(url, reqBody);
   }
 
-  public getEvents(dateRangeStartDate: string, dateRangeEndDate: string) {
-    const url = `${environment.API_URL}/appointments?startDate=${dateRangeStartDate}&endDate=${dateRangeEndDate}`;
-    return this._httpClient.get(url);
+  public getEvents(reqBody: LooseObject) {
+    const url = `${environment.API_URL}/appointments/all`;
+    return this._httpClient.post(url, reqBody);
   }
 
   public createAppointment(appointmentInfo: LooseObject = {}) {
