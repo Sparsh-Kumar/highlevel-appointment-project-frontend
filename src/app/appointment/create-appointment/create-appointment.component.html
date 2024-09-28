@@ -1,0 +1,74 @@
+<div class="parentdiv">
+  <h1 mat-dialog-title>{{title}}</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="appointmentInfo" (ngSubmit)="submitAppointmentInfo()">
+      <div class="formfield">
+        <mat-form-field appearance="outline" class="mt-5">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput placeholder="john doe" formControlName="name">
+          <mat-error *ngIf="isSubmitBtnClicked" class="error">
+            <ng-container *ngIf="isRequiredError('name')">
+              Name is required.
+            </ng-container>
+            <ng-container *ngIf="isMaxLengthError('name')">
+              Name should not be greater than 60 characters.
+            </ng-container>
+            <ng-container *ngIf="isMinLengthError('name')">
+              Name should not be empty.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formfield">
+        <mat-form-field class="mt-5">
+          <mat-label>Appointment Date</mat-label>
+          <input type="text" matInput placeholder="YYYY-MM-DD" formControlName="appointmentDate" readonly>
+          <mat-error *ngIf="isSubmitBtnClicked" class="error">
+            <ng-container *ngIf="isRequiredError('appointmentDate')">
+              Appointment date is required.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formfield">
+        <mat-form-field class="mt-5">
+          <mat-label>Appointment Time</mat-label>
+          <input type="text" matInput placeholder="HH:mm" formControlName="appointmentTime" readonly>
+          <mat-error *ngIf="isSubmitBtnClicked" class="error">
+            <ng-container *ngIf="isRequiredError('appointmentTime')">
+              Appointment time is required.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formfield">
+        <mat-form-field appearance="outline" class="mt-5">
+          <mat-label>Duration</mat-label>
+          <input type="number" matInput formControlName="duration">
+          <mat-error *ngIf="isSubmitBtnClicked" class="error">
+            <ng-container *ngIf="isRequiredError('duration')">
+              Appointment duration is required.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formfield">
+        <mat-form-field appearance="outline" class="mt-5">
+          <mat-label>Notes</mat-label>
+          <textarea matInput placeholder="Any notes ...." formControlName="notes"></textarea>
+          <mat-error *ngIf="isSubmitBtnClicked" class="error">
+            <ng-container *ngIf="isRequiredError('notes')">
+              Notes is required.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button class="auth-modal-btn" type="submit" mat-flat-button color="primary">
+        <mat-icon>
+          {{icon}}
+        </mat-icon>
+        {{btnText}}
+      </button>
+    </form>
+  </div>
+</div>

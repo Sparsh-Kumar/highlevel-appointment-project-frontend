@@ -4,7 +4,9 @@ import { AppointmentService } from './appointment.service';
 import Swal from 'sweetalert2';
 import { LooseObject, SlotInformation } from './types';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
+import { CreateAppointmentComponent } from './create-appointment/create-appointment.component';
 
 @Component({
   selector: 'app-appointment',
@@ -18,8 +20,11 @@ export class AppointmentComponent {
   public doctorEmail: string = '';
   public selectedDate: Date = moment().startOf('month').toDate();
   public availableSlots: string[] = [];
+  public dialogWidth: string = '25%';
+  public dialogHeight: string = '75%';
 
   constructor(
+    private readonly _dialog: MatDialog,
     private readonly _appointmentService: AppointmentService,
     private readonly _spinner: NgxSpinnerService,
   ) { }
@@ -69,5 +74,22 @@ export class AppointmentComponent {
   public onDateSelected(date: Date) {
     this.selectedDate = date;
     this.getSlots();
+  }
+
+  public bookSlot(slot: string) {
+    const metaData: LooseObject = {
+      width: this.dialogWidth,
+      height: this.dialogHeight,
+      data: {
+        doctorId: this.doctorId,
+        appointmentDate: this.selectedDate,
+        slot: slot
+      }
+    };
+    const dialogReference: MatDialogRef<CreateAppointmentComponent, LooseObject> = this._dialog.open(CreateAppointmentComponent, metaData);
+    dialogReference.afterClosed().subscribe((response: LooseObject | undefined) => {
+      console.log(response);
+    });
+
   }
 }

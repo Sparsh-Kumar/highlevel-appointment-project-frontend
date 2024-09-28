@@ -12,7 +12,9 @@
       <div class="slots">
         <h2> Available Slots On {{ selectedDate | date:'yyyy/MM/dd' }}</h2>
         <div *ngFor="let slot of availableSlots" class="btn-div">
-          <button mat-stroked-button class="btn">{{slot}}</button>
+          <button mat-stroked-button class="btn" (click)="bookSlot(slot)">
+            {{slot}}
+          </button>
         </div>
       </div>
     </div>
