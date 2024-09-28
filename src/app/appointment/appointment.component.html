@@ -20,6 +20,7 @@
       </div>
       <div class="slots">
         <h2> Available Slots On {{ selectedDate | date:'yyyy/MM/dd' }}</h2>
+        <h4>Click on buttons to book the slots</h4>
         <div *ngFor="let slot of availableSlots" class="btn-div">
           <button mat-stroked-button class="btn" (click)="bookSlot(slot)">
             {{slot}}
